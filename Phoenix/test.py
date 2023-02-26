@@ -2,7 +2,7 @@
 # This version uses onScreenActivated (which unfortunately
 # only works offline for now and not in the Sandbox (coming soon!)).
 
-from cmu_graphics import *
+from cmu_graphics.cmu_graphics import *
 
 ##################################
 # App
