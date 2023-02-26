@@ -37,7 +37,7 @@ def screen1_redrawAll(app):
     drawLabel('Press s to change screen to screen2', app.width/2, 70, size=16)
     drawRect(100, 100, app.width-200, app.height-200, fill=app.color)
     drawLabel(f'Screen1 was activated {app.activatedCounter1} times',
-              app.width/2,app.height-30, size=12)
+            app.width/2,app.height-30, size=12)
 
 ##################################
 # Screen2

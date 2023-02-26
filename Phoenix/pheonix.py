@@ -1,4 +1,4 @@
-from cmu_112_graphics import *
+from cmu_graphics.cmu_graphics import *
 
 def onAppStart(app):
     pass
