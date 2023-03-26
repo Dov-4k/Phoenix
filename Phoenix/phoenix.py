@@ -40,6 +40,14 @@ def game_onAppStart(app):
 def game_onScreenActivate(app):
     print('In game_onScreenActivate')
 
+def game_onMousePress(app, x, y):
+    app.x = x
+    app.y = y
+
+def game_onMouseDrag(app, x, y):
+    app.x = x
+    app.y = y
+
 def game_onKeyPress(app, key):
     if key == 'p': setActiveScreen('pause')
     if key == 'w': app.y -= 20
