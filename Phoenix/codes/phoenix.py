@@ -39,7 +39,6 @@ def game_onAppStart(app):
     app.firstBulletX = None
     app.firstBulletY = None
 
-
 def game_onScreenActivate(app):
     print('In game_onScreenActivate')
 
@@ -53,7 +52,7 @@ def game_onMouseDrag(app, x, y):
 
 def game_onKeyPress(app, key):
     if key == 'p': setActiveScreen('pause')
-    while key == 'space':
+    if key == 'space':
         app.firstBulletX = app.CharacterX
         app.firstBulletY = app.CharacterY
 
