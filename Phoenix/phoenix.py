@@ -34,30 +34,27 @@ def startScreen_redrawAll(app):
 
 def game_onAppStart(app):
     print('In game')
-    app.x = app.width/2
-    app.y = 650
+    app.CharacterX = app.width/2
+    app.CharacterY = 650
 
 def game_onScreenActivate(app):
     print('In game_onScreenActivate')
 
 def game_onMousePress(app, x, y):
-    app.x = x
-    app.y = y
+    app.CharacterX = x
+    app.CharacterY = 
 
 def game_onMouseDrag(app, x, y):
-    app.x = x
-    app.y = y
+    app.CharacterX = x
+    app.CharacterY = y
 
 def game_onKeyPress(app, key):
     if key == 'p': setActiveScreen('pause')
-    if key == 'w': app.y -= 20
-    if key == 's': app.y += 20
-    if key == 'a': app.x -= 20
-    if key == 'd': app.x += 20
+    if key == 'space': app.y -= 20
 
 def game_redrawAll(app):
     drawRect(0, 0, app.width, app.height, fill='black')
-    drawRect(app.x, app.y, 20, 20, fill='white')
+    drawRect(app.CharacterX, app.CharacterY, 20, 20, fill='white')
     drawLabel('Game', app.width/2, 30, size=16)
 
 ##################################
