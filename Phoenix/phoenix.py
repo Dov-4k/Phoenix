@@ -27,7 +27,6 @@ def startScreen_redrawAll(app):
     drawRect(0, 0, app.width, app.height, fill='black')
     drawLabel('Welcome to Phoenix 3', app.width/2, 30, size=16, fill='white')
     drawLabel('Press START to begin the game', app.width/2, 50, size=16, fill='white')
-    drawRect(100, 100, app.width-200, app.height-200, fill=app.color)
 
 ##################################
 # Game
@@ -35,26 +34,45 @@ def startScreen_redrawAll(app):
 
 def game_onAppStart(app):
     print('In game')
-    app.cx = app.width/2
-    app.dx = 10
+    app.x = app.width/2
+    app.y = 650
 
 def game_onScreenActivate(app):
     print('In game_onScreenActivate')
 
 def game_onKeyPress(app, key):
-    if key == 's': setActiveScreen('startScreen')
-    elif key == 'd': app.dx = -app.dx
-
-def game_onStep(app):
-    app.cx = (app.cx + app.dx) % app.width
+    if key == 'p': setActiveScreen('pause')
+    if key == 'w': app.y -= 20
+    if key == 's': app.y += 20
+    if key == 'a': app.x -= 20
+    if key == 'd': app.x += 20
 
 def game_redrawAll(app):
+    drawRect(0, 0, app.width, app.height, fill='black')
+    drawRect(app.x, app.y, 20, 20, fill='white')
     drawLabel('Game', app.width/2, 30, size=16)
-    drawLabel('Press d to change direction of dot', app.width/2, 50, size=16)
-    drawLabel('Press s to change the screen to startScreen', app.width/2, 70, size=16)
-    drawCircle(app.cx, app.height/2, 50, fill='lightGreen')
 
-##################################c
+##################################
+# Pause
+##################################
+
+def pause_onAppStart(app):
+    print('In pause menu')
+
+def pause_onScreenActivate(app):
+    print('In pause_onScreenActivate')
+
+def pause_onKeyPress(app, key):
+    if key == 'p': setActiveScreen('game')
+    elif key == 'escape': setActiveScreen('startScreen')
+
+def pause_redrawAll(app):
+    drawRect(0, 0, app.width, app.height, fill='black')
+    drawLabel('Pause', app.width/2, 30, size=25, fill='white')
+    drawLabel('Press p to resume the game', app.width/2, 50, size=16, fill='white')
+    drawLabel('Press escape to exit the game', app.width/2, 70, size=16, fill='white')
+
+##################################
 # main
 ##################################
 
