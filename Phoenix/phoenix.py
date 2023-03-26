@@ -42,7 +42,7 @@ def game_onScreenActivate(app):
 
 def game_onMousePress(app, x, y):
     app.CharacterX = x
-    app.CharacterY = 
+    app.CharacterY = y
 
 def game_onMouseDrag(app, x, y):
     app.CharacterX = x
