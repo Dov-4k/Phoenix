@@ -1,4 +1,5 @@
 from cmu_graphics.cmu_graphics import *
+import os
 
 ##################################
 # App
@@ -6,7 +7,10 @@ from cmu_graphics.cmu_graphics import *
 
 def onAppStart(app):
     print('In onAppStart')
-    app.image = "/Users/xu/cmu-workspace/CMU-Comp-Sci/Phoenix/pictures/Real Phoenix.png"
+    script_dir = os.path.dirname(__file__)
+    rel_path = "./pictures/Real Phoenix.png"
+    app.image = os.path.join(script_dir, rel_path)
+
 
 def onAppStop(app):
     print('In onAppStop')
@@ -22,6 +26,9 @@ def startScreen_onScreenActivate(app):
     print('In startScreen_onScreenActivate')
 
 def startScreen_onKeyPress(app, key):
+    setActiveScreen('game')
+
+def startScreen_onMousePress(app, x, y):
     setActiveScreen('game')
 
 def startScreen_redrawAll(app):
