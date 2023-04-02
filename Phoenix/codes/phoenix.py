@@ -1,15 +1,19 @@
 from cmu_graphics.cmu_graphics import *
 import os
 
+#forced reset use:git reset --hard origin/main
+
 ##################################
-# App
+# App 
 ##################################
 
 def onAppStart(app):
     print('In onAppStart')
     script_dir = os.path.dirname(__file__)
     rel_path = "./pictures/Real Phoenix.png"
-    app.image = os.path.join(script_dir, rel_path)
+    app.character = os.path.join(script_dir, rel_path)
+    rel_path = "./pictures/Bluebullet-removebg-preview (1).png"
+    app.bullet = os.path.join(script_dir, rel_path)
 
 def onAppStop(app):
     print('In onAppStop')
@@ -55,8 +59,8 @@ def game_onMousePress(app, x, y):
     app.CharacterY = y-2.5
 
 def game_onMouseDrag(app, x, y):
-    app.CharacterX = x-10
-    app.CharacterY = y-10
+    app.CharacterX = x-2.5
+    app.CharacterY = y-2.5
 
 def game_onKeyPress(app, key):
     if key == 'p': setActiveScreen('pause')
@@ -73,9 +77,12 @@ def game_redrawAll(app):
     if len(app.list) >= 2:
         for i in range(1, len(app.list), 2):
             drawRect(app.list[i], app.list[i+1], 1, 5, fill='white')
+            bulletWidth, bulletHeight = getImageSize(app.bullet)
+            drawImage(app.bullet, app.list[i]+2.5, app.list[i+1]+2.5, align = 'center', width = bulletWidth/10, height = bulletHeight/10)
+
     drawLabel('Game', app.width/2, 30, size=16)
-    imageWidth, imageHeight = getImageSize(app.image)
-    drawImage(app.image, app.CharacterX, app.CharacterY, align = 'center', width = imageWidth/6, height = imageHeight/6)
+    characterWidth, characterHeight = getImageSize(app.character)
+    drawImage(app.character, app.CharacterX+2.5, app.CharacterY+2.5, align = 'center', width = characterWidth/6, height = characterHeight/6)
 
 def game_onStep(app):
     if len(app.list) >= 2:
