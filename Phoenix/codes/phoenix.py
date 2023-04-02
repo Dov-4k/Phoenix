@@ -44,8 +44,8 @@ def game_onScreenActivate(app):
     print('In game_onScreenActivate')
 
 def game_onMousePress(app, x, y):
-    app.CharacterX = x-10
-    app.CharacterY = y-10
+    app.CharacterX = x-2.5
+    app.CharacterY = y-2.5
 
 def game_onMouseDrag(app, x, y):
     app.CharacterX = x-10
