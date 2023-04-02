@@ -6,6 +6,7 @@ from cmu_graphics.cmu_graphics import *
 
 def onAppStart(app):
     print('In onAppStart')
+    app.image = "/Users/xu/cmu-workspace/CMU-Comp-Sci/Phoenix/pictures/Real Phoenix.png"
 
 def onAppStop(app):
     print('In onAppStop')
@@ -67,6 +68,8 @@ def game_redrawAll(app):
         for i in range(1, len(app.list), 2):
             drawRect(app.list[i], app.list[i+1], 1, 5, fill='white')
     drawLabel('Game', app.width/2, 30, size=16)
+    imageWidth, imageHeight = getImageSize(app.image)
+    drawImage(app.image, app.CharacterX, app.CharacterY, align = 'center', width = imageWidth/6, height = imageHeight/6)
 
 def game_onStep(app):
     if len(app.list) >= 2:
