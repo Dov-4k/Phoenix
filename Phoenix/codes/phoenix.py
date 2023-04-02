@@ -20,13 +20,13 @@ def startScreen_onAppStart(app):
 def startScreen_onScreenActivate(app):
     print('In startScreen_onScreenActivate')
 
-def startScreen_onMousePress(app, x, y):
-    if x >= 130 and x <= 180 and y >= 44 and y <= 55: setActiveScreen('game')
+def startScreen_onKeyPress(app, key):
+    setActiveScreen('game')
 
 def startScreen_redrawAll(app):
     drawRect(0, 0, app.width, app.height, fill='black')
     drawLabel('Welcome to Phoenix 3', app.width/2, 30, size=16, fill='white')
-    drawLabel('Press START to begin the game', app.width/2, 50, size=16, fill='white')
+    drawLabel('Press any key to begin the game', app.width/2, 50, size=16, fill='white')
 
 ##################################
 # Game
@@ -36,8 +36,9 @@ def game_onAppStart(app):
     print('In game')
     app.CharacterX = app.width/2
     app.CharacterY = 650
-    app.firstBulletX = None
-    app.firstBulletY = None
+    app.list = [0]
+    app.stepsPerSecond = 100
+    app.bulletCounter = 0
 
 def game_onScreenActivate(app):
     print('In game_onScreenActivate')
@@ -53,16 +54,25 @@ def game_onMouseDrag(app, x, y):
 def game_onKeyPress(app, key):
     if key == 'p': setActiveScreen('pause')
     if key == 'space':
-        app.firstBulletX = app.CharacterX
-        app.firstBulletY = app.CharacterY
+        list.append(app.list, app.CharacterX)
+        list.append(app.list, app.CharacterY)
+
+def game_bulletCheck(app):
+    return True
 
 def game_redrawAll(app):
     drawRect(0, 0, app.width, app.height, fill='black')
-    drawRect(app.CharacterX, app.CharacterY, 20, 20, fill='white')
-    if app.firstBulletX != None:
-        drawRect(app.firstBulletX, app.firstBulletY, 5, 1, fill='white')
-        app.firstBulletX+3
+    drawRect(app.CharacterX, app.CharacterY, 5, 5, fill='white')
+    if len(app.list) >= 2:
+        for i in range(1, len(app.list), 2):
+            drawRect(app.list[i], app.list[i+1], 1, 5, fill='white')
     drawLabel('Game', app.width/2, 30, size=16)
+
+def game_onStep(app):
+    if len(app.list) >= 2:
+        for i in range(2, len(app.list), 2):
+            if app.list[i] >= -5:
+                app.list[i] -= 3
 
 ##################################
 # Pause
