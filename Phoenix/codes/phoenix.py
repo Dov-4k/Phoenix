@@ -82,7 +82,7 @@ def game_onStep(app):
     if len(app.list) >= 2:
         for i in range(2, len(app.list), 2):
             if app.list[i] >= -5:
-                app.list[i] -= 3
+                app.list[i] -= 10
 
 ##################################
 # Pause
