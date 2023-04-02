@@ -11,7 +11,6 @@ def onAppStart(app):
     rel_path = "./pictures/Real Phoenix.png"
     app.image = os.path.join(script_dir, rel_path)
 
-
 def onAppStop(app):
     print('In onAppStop')
 
