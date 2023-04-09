@@ -16,7 +16,7 @@ def onAppStart(app):
     script_dir = os.path.dirname(__file__)
     rel_path = "./pictures/Real Phoenix.png"
     app.character = os.path.join(script_dir, rel_path)
-    rel_path = "./pictures/alien-removebg-preview.png"
+    rel_path = "./pictures/Phoenix enemySparrow.png"
     app.alien = os.path.join(script_dir, rel_path)
 
 def onAppStop(app):
@@ -89,7 +89,7 @@ def game_redrawAll(app):
     if len(app.aliens) >= 2:
         for i in range(1, len(app.aliens), 2):
             alienWidth, alienHeight = getImageSize(app.alien)
-            drawImage(app.alien, app.aliens[i], app.aliens[i+1], width = 15, height = 15)
+            drawImage(app.alien, app.aliens[i], app.aliens[i+1], width = 50, height = 50)
 
 def game_onStep(app):
     if len(app.bullets) >= 2:
