@@ -54,10 +54,19 @@ def game_onAppStart(app):
     app.bullets = [0]
     app.bullets2 = [0]
     app.aliens = [0]
-    app.stepsPerSecond = 30
+    app.alienSpeed = [0]
+    app.stepsPerSecond = 100
 
 def game_onScreenActivate(app):
     print('In game_onScreenActivate')
+
+def game_onKeyPress(app, key):
+    if key == 'p': setActiveScreen('pause')
+    if key == 'space':
+        list.append(app.bullets, app.CharacterX - 12)
+        list.append(app.bullets, app.CharacterY)
+        list.append(app.bullets2, app.CharacterX + 17)
+        list.append(app.bullets2, app.CharacterY)  
 
 def game_onMousePress(app, x, y):
     app.CharacterX = x-2.5
@@ -66,17 +75,6 @@ def game_onMousePress(app, x, y):
 def game_onMouseDrag(app, x, y):
     app.CharacterX = x-2.5
     app.CharacterY = y-2.5
-
-def game_onKeyPress(app, key):
-    if key == 'p': setActiveScreen('pause')
-    if key == 'space':
-        list.append(app.bullets, app.CharacterX - 12)
-        list.append(app.bullets, app.CharacterY)
-        list.append(app.bullets2, app.CharacterX + 17)
-        list.append(app.bullets2, app.CharacterY)
-
-def game_bulletCheck(app):
-    return True
 
 def game_redrawAll(app):
     drawRect(0, 0, app.width, app.height, fill='black')
@@ -89,7 +87,7 @@ def game_redrawAll(app):
     if len(app.aliens) >= 2:
         for i in range(1, len(app.aliens), 2):
             alienWidth, alienHeight = getImageSize(app.alien)
-            drawImage(app.alien, app.aliens[i], app.aliens[i+1], width = 15, height = 15)
+            drawImage(app.alien, app.aliens[i], app.aliens[i+1], width = 20, height = 20)
 
 def game_onStep(app):
     if len(app.bullets) >= 2:
@@ -109,14 +107,23 @@ def game_onStep(app):
         for i in range(1, random.randint(1, 10), 2):
             app.aliens.append(random.randint(0, app.width))
             app.aliens.append(5)
+            app.alienSpeed.append(random.randint(3, 7))
     else:
-        for i in range(1, len(app.aliens), 2):
+        for i in range(1, len(app.alienSpeed), 2):
             x = app.CharacterX - app.aliens[i]
             y = app.CharacterY - app.aliens[i+1]
             distance = (x ** 2 + y ** 2) ** 0.5
             if distance != 0:
-                app.aliens[i] += x / distance * 5
-                app.aliens[i+1] += y / distance * 5
+                app.aliens[i] += x / distance * app.alienSpeed[i]
+                app.aliens[i+1] += y / distance * app.alienSpeed[i]
+        for i in range(1, len(app.aliens), 2):
+            if app.aliens[i] - app.bullets[i] < 10 and app.aliens[i] - app.bullets[i] < -10 and app.aliens[i+1] - app.bullets[i] < 10 and app.aliens[i+1] - app.bullets[i] < -10:
+                app.aliens.pop(i)
+                app.aliens.pop(i+1)
+                app.alienSpeed.pop(i)
+                app.bullets.pop(i)
+                app.bullets.pop(i+1)
+                i -= 2
 
 ##################################
 # Pause
