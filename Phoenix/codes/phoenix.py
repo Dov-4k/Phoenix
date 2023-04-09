@@ -51,6 +51,7 @@ def game_onAppStart(app):
     app.CharacterX = app.width/2
     app.CharacterY = 650
     app.bullets = [0]
+    app.bullets2 = [0]
     app.aliens = [0]
     app.stepsPerSecond = 50
     app.bulletCounter = 0
@@ -69,8 +70,10 @@ def game_onMouseDrag(app, x, y):
 def game_onKeyPress(app, key):
     if key == 'p': setActiveScreen('pause')
     if key == 'space':
-        list.append(app.bullets, app.CharacterX)
+        list.append(app.bullets, app.CharacterX - 12)
         list.append(app.bullets, app.CharacterY)
+        list.append(app.bullets2, app.CharacterX + 17)
+        list.append(app.bullets2, app.CharacterY)
 
 def game_bulletCheck(app):
     return True
@@ -79,9 +82,10 @@ def game_redrawAll(app):
     drawRect(0, 0, app.width, app.height, fill='black')
     if len(app.bullets) >= 2:
         for i in range(1, len(app.bullets), 2):
-            drawRect(app.bullets[i], app.bullets[i+1], 1, 5, fill='white')
-            bulletWidth, bulletHeight = getImageSize(app.bullet)
-            drawImage(app.bullet, app.bullets[i]+2.5, app.bullets[i+1]+2.5, align = 'center', width = bulletWidth/10, height = bulletHeight/10)
+            drawCircle(app.bullets[i], app.bullets[i+1], 5, fill='cyan')
+            drawCircle(app.bullets2[i], app.bullets2[i+1], 5, fill='cyan')
+            #bulletWidth, bulletHeight = getImageSize(app.bullet)
+            #drawImage(app.bullet, app.bullets[i]+2.5, app.bullets[i+1]+2.5, align = 'center', width = bulletWidth/10, height = bulletHeight/10)
     characterWidth, characterHeight = getImageSize(app.character)
     drawImage(app.character, app.CharacterX+2.5, app.CharacterY+2.5, align = 'center', width = characterWidth/6, height = characterHeight/6)
 
@@ -93,9 +97,12 @@ def game_onStep(app):
             if app.bullets[i] < -5:
                 app.bullets.pop(i)
                 app.bullets.pop(i-1)
+                app.bullets2.pop(i)
+                app.bullets2.pop(i-1)
                 i -= 2
             else:
                 app.bullets[i] -= 10
+                app.bullets2[i] -= 10
 
 ##################################
 # Pause
