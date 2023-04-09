@@ -16,8 +16,8 @@ def onAppStart(app):
     script_dir = os.path.dirname(__file__)
     rel_path = "./pictures/Real Phoenix.png"
     app.character = os.path.join(script_dir, rel_path)
-    rel_path = "./pictures/Bluebullet-removebg-preview (1).png"
-    app.bullet = os.path.join(script_dir, rel_path)
+    rel_path = "./pictures/alien-removebg-preview.png"
+    app.alien = os.path.join(script_dir, rel_path)
 
 def onAppStop(app):
     print('In onAppStop')
@@ -84,14 +84,12 @@ def game_redrawAll(app):
         for i in range(1, len(app.bullets), 2):
             drawCircle(app.bullets[i], app.bullets[i+1], 5, fill='cyan')
             drawCircle(app.bullets2[i], app.bullets2[i+1], 5, fill='cyan')
-            #bulletWidth, bulletHeight = getImageSize(app.bullet)
-            #drawImage(app.bullet, app.bullets[i]+2.5, app.bullets[i+1]+2.5, align = 'center', width = bulletWidth/10, height = bulletHeight/10)
     characterWidth, characterHeight = getImageSize(app.character)
     drawImage(app.character, app.CharacterX+2.5, app.CharacterY+2.5, align = 'center', width = characterWidth/6, height = characterHeight/6)
     if len(app.aliens) >= 2:
         for i in range(1, len(app.aliens), 2):
-            alienWidth, alienHeight = getImageSize(app.aliens[i])
-            drawRect(app.aliens[i], app.aliens[i+1], 15, 15, fill='white')
+            alienWidth, alienHeight = getImageSize(app.alien)
+            drawImage(app.alien, app.aliens[i], app.aliens[i+1], width = 15, height = 15)
 
 def game_onStep(app):
     if len(app.bullets) >= 2:
@@ -106,6 +104,7 @@ def game_onStep(app):
                 i -= 2
             else:
                 app.bullets[i] -= 10
+                app.bullets2[i] -= 10
     if len(app.aliens) < 2:
         for i in range(1, random.randint(1, 10), 2):
             app.aliens.append(random.randint(0, app.width))
@@ -118,8 +117,6 @@ def game_onStep(app):
             if distance != 0:
                 app.aliens[i] += x / distance * 5
                 app.aliens[i+1] += y / distance * 5
-
-                app.bullets2[i] -= 10
 
 ##################################
 # Pause
