@@ -50,7 +50,8 @@ def game_onAppStart(app):
     print('In game')
     app.CharacterX = app.width/2
     app.CharacterY = 650
-    app.list = [0]
+    app.bullets = [0]
+    app.aliens = [0]
     app.stepsPerSecond = 50
     app.bulletCounter = 0
 
@@ -68,34 +69,33 @@ def game_onMouseDrag(app, x, y):
 def game_onKeyPress(app, key):
     if key == 'p': setActiveScreen('pause')
     if key == 'space':
-        list.append(app.list, app.CharacterX)
-        list.append(app.list, app.CharacterY)
+        list.append(app.bullets, app.CharacterX)
+        list.append(app.bullets, app.CharacterY)
 
 def game_bulletCheck(app):
     return True
 
 def game_redrawAll(app):
     drawRect(0, 0, app.width, app.height, fill='black')
-    drawRect(app.CharacterX, app.CharacterY, 5, 5, fill='white')
-    if len(app.list) >= 2:
-        for i in range(1, len(app.list), 2):
-            drawRect(app.list[i], app.list[i+1], 1, 5, fill='white')
+    if len(app.bullets) >= 2:
+        for i in range(1, len(app.bullets), 2):
+            drawRect(app.bullets[i], app.bullets[i+1], 1, 5, fill='white')
             bulletWidth, bulletHeight = getImageSize(app.bullet)
-            drawImage(app.bullet, app.list[i]+2.5, app.list[i+1]+2.5, align = 'center', width = bulletWidth/10, height = bulletHeight/10)
+            drawImage(app.bullet, app.bullets[i]+2.5, app.bullets[i+1]+2.5, align = 'center', width = bulletWidth/10, height = bulletHeight/10)
     characterWidth, characterHeight = getImageSize(app.character)
     drawImage(app.character, app.CharacterX+2.5, app.CharacterY+2.5, align = 'center', width = characterWidth/6, height = characterHeight/6)
 
 def game_onStep(app):
-    if len(app.list) >= 2:
-        for i in range(2, len(app.list), 2):
-            if i >= len(app.list):
+    if len(app.bullets) >= 2:
+        for i in range(2, len(app.bullets), 2):
+            if i >= len(app.bullets):
                 break
-            if app.list[i] < -5:
-                app.list.pop(i)
-                app.list.pop(i-1)
+            if app.bullets[i] < -5:
+                app.bullets.pop(i)
+                app.bullets.pop(i-1)
                 i -= 2
             else:
-                app.list[i] -= 10
+                app.bullets[i] -= 10
 
 ##################################
 # Pause
