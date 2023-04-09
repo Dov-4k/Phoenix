@@ -1,3 +1,6 @@
+# Program: Phoenix 3
+# Authors: Dov Abrahim Kanner and Jack Xu
+
 from cmu_graphics.cmu_graphics import *
 import os
 
@@ -48,7 +51,7 @@ def game_onAppStart(app):
     app.CharacterX = app.width/2
     app.CharacterY = 650
     app.list = [0]
-    app.stepsPerSecond = 100
+    app.stepsPerSecond = 50
     app.bulletCounter = 0
 
 def game_onScreenActivate(app):
@@ -79,16 +82,20 @@ def game_redrawAll(app):
             drawRect(app.list[i], app.list[i+1], 1, 5, fill='white')
             bulletWidth, bulletHeight = getImageSize(app.bullet)
             drawImage(app.bullet, app.list[i]+2.5, app.list[i+1]+2.5, align = 'center', width = bulletWidth/10, height = bulletHeight/10)
-
-    drawLabel('Game', app.width/2, 30, size=16)
     characterWidth, characterHeight = getImageSize(app.character)
     drawImage(app.character, app.CharacterX+2.5, app.CharacterY+2.5, align = 'center', width = characterWidth/6, height = characterHeight/6)
 
 def game_onStep(app):
     if len(app.list) >= 2:
         for i in range(2, len(app.list), 2):
-            if app.list[i] >= -5:
-                app.list[i] -= 7
+            if i >= len(app.list):
+                break
+            if app.list[i] < -5:
+                app.list.pop(i)
+                app.list.pop(i-1)
+                i -= 2
+            else:
+                app.list[i] -= 10
 
 ##################################
 # Pause
