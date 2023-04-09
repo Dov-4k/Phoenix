@@ -16,7 +16,7 @@ def onAppStart(app):
     script_dir = os.path.dirname(__file__)
     rel_path = "./pictures/Real Phoenix.png"
     app.character = os.path.join(script_dir, rel_path)
-    rel_path = "./pictures/alien-removebg-preview.png"
+    rel_path = "./pictures/Phoenix enemySparrow.png"
     app.alien = os.path.join(script_dir, rel_path)
 
 def onAppStop(app):
