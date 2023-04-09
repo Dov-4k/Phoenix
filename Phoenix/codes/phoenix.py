@@ -3,6 +3,7 @@
 
 from cmu_graphics.cmu_graphics import *
 import os
+import random
 
 #forced reset use:git reset --hard origin/main
 
@@ -52,8 +53,7 @@ def game_onAppStart(app):
     app.CharacterY = 650
     app.bullets = [0]
     app.aliens = [0]
-    app.stepsPerSecond = 50
-    app.bulletCounter = 0
+    app.stepsPerSecond = 30
 
 def game_onScreenActivate(app):
     print('In game_onScreenActivate')
@@ -84,6 +84,10 @@ def game_redrawAll(app):
             drawImage(app.bullet, app.bullets[i]+2.5, app.bullets[i+1]+2.5, align = 'center', width = bulletWidth/10, height = bulletHeight/10)
     characterWidth, characterHeight = getImageSize(app.character)
     drawImage(app.character, app.CharacterX+2.5, app.CharacterY+2.5, align = 'center', width = characterWidth/6, height = characterHeight/6)
+    if len(app.aliens) >= 2:
+        for i in range(1, len(app.aliens), 2):
+            alienWidth, alienHeight = getImageSize(app.aliens[i])
+            drawRect(app.aliens[i], app.aliens[i+1], 15, 15, fill='white')
 
 def game_onStep(app):
     if len(app.bullets) >= 2:
@@ -96,6 +100,19 @@ def game_onStep(app):
                 i -= 2
             else:
                 app.bullets[i] -= 10
+    if len(app.aliens) < 2:
+        for i in range(1, random.randint(1, 10), 2):
+            app.aliens.append(random.randint(0, app.width))
+            app.aliens.append(5)
+    else:
+        for i in range(1, len(app.aliens), 2):
+            x = app.CharacterX - app.aliens[i]
+            y = app.CharacterY - app.aliens[i+1]
+            distance = (x ** 2 + y ** 2) ** 0.5
+            if distance != 0:
+                app.aliens[i] += x / distance * 5
+                app.aliens[i+1] += y / distance * 5
+
 
 ##################################
 # Pause
