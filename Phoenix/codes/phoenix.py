@@ -127,7 +127,7 @@ def game_onStep(app):
         #                 j -= 1
         for alien in app.aliens:
             for bullet in app.bullets:
-                if len(app.aliens) != 0 and len(app.bullets) != 0 and bullet.x >= alien.x-20 and bullet.x  <= alien.x+20 and bullet.y >= alien.y-20 and bullet.y <= alien.y+20:
+                if bullet.x >= alien.x-20 and bullet.x  <= alien.x+20 and bullet.y >= alien.y-20 and bullet.y <= alien.y+20:
                     app.aliens.remove(alien)
                     app.bullets.remove(bullet)
                     break
