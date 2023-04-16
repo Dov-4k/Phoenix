@@ -73,8 +73,7 @@ def game_onScreenActivate(app):
 def game_onKeyPress(app, key):
     if key == 'p': setActiveScreen('pause')
     if key == 'space':
-        app.bullets.append(Bullets(app.CharacterX - 12, app.CharacterY))
-        app.bullets2.append(Bullets(app.CharacterX + 17, app.CharacterY))
+        app.bullets.append(Bullets(app.CharacterX, app.CharacterY))
 
 def game_onMousePress(app, x, y):
     app.CharacterX = x-2.5
@@ -85,6 +84,25 @@ def game_onMouseDrag(app, x, y):
     app.CharacterY = y-2.5
 
 def game_redrawAll(app):
+    
+    drawRect(0, 0, app.width, app.height, fill='black')  
+    characterWidth, characterHeight = getImageSize(app.character)
+    drawImage(app.character, app.CharacterX+2.5, app.CharacterY+2.5, align = 'center', width = characterWidth/6, height = characterHeight/6)
+    for i in range(0, len(app.bullets)):
+        drawCircle(app.bullets[i].x, app.bullets[i].y, 5, fill='cyan')
+    if len(app.aliens) >= 2:
+        for i in range(0, len(app.aliens)):
+            alienWidth, alienHeight = getImageSize(app.alien)
+            drawImage(app.alien, app.aliens[i].x-20, app.aliens[i].y-20, width = 40, height = 40)
+
+def game_onStep(app):
+    if len(app.bullets) >= 0:
+        for i in range(0, len(app.bullets)):
+            if i < len(app.bullets) and app.bullets[i].y < -4:
+                del app.bullets[i]
+                i -= 1
+            elif i < len(app.bullets):
+                app.bullets[i].y -= 10
     if len(app.aliens) == 0:
         for i in range(0, random.randint(2, 14)):
             alien = Aliens()
@@ -97,52 +115,24 @@ def game_redrawAll(app):
             if distance != 0:
                 alien.x += x / distance * alien.speed
                 alien.y += y / distance * alien.speed
-        for i in range(0, len(app.bullets)):
-            for j in range(0, len(app.aliens)):
-                if i >= 0 and j >= 0 and i < len(app.bullets) and j < len(app.aliens):
-                    distanceX = (app.bullets[i].x+2.5) - (app.aliens[j].x+20)
-                    distanceY = (app.bullets[i].y+2.5) - (app.aliens[j].y+20)
-                    if len(app.aliens) != 0 and len(app.bullets) != 0 and distanceX <= 2 and distanceY <= 2:
-                        del app.aliens[j]
-                        del app.bullets[i]
-                        i -= 1
-                        j -= 1
-        for i in range(0, len(app.bullets2)):
-            for j in range(0, len(app.aliens)):
-                if i >= 0 and j >= 0 and i < len(app.bullets) and j < len(app.aliens) and i < len(app.bullets) and j < len(app.bullets2):
-                    distanceX = (app.bullets2[i].x+2.5) - (app.aliens[j].x+20)
-                    distanceY = (app.bullets2[i].y+2.5) - (app.aliens[j].y+20)
-                    if len(app.aliens) != 0 and len(app.bullets2) != 0 and distanceX <= 2 and distanceY <= 2:
-                        del app.aliens[j]
-                        del app.bullets2[i]
-                        i -= 1
-                        j -= 1
-    drawRect(0, 0, app.width, app.height, fill='black')  
-    characterWidth, characterHeight = getImageSize(app.character)
-    drawImage(app.character, app.CharacterX+2.5, app.CharacterY+2.5, align = 'center', width = characterWidth/6, height = characterHeight/6)
-    for i in range(0, len(app.bullets)):
-        drawCircle(app.bullets[i].x, app.bullets[i].y, 5, fill='cyan')
-    for i in range(0, len(app.bullets2)):
-        drawCircle(app.bullets2[i].x, app.bullets2[i].y, 5, fill='cyan')
-    if len(app.aliens) >= 2:
-        for i in range(0, len(app.aliens)):
-            alienWidth, alienHeight = getImageSize(app.alien)
-            drawImage(app.alien, app.aliens[i].x-20, app.aliens[i].y-20, width = 40, height = 40)
-
-def game_onStep(app):
-    if len(app.bullets) >= 0 and len(app.bullets2) >= 0:
-        for i in range(0, len(app.bullets)):
-            if i < len(app.bullets) and app.bullets[i].y < -4:
-                del app.bullets[i]
-                i -= 1
-            elif i < len(app.bullets):
-                app.bullets[i].y -= 10
-        for i in range(0, len(app.bullets2)):
-            if i < len(app.bullets2) and app.bullets2[i].y < -5:
-                del app.bullets2[i]
-                i -= 1
-            elif i < len(app.bullets2):
-                app.bullets2[i].y -= 10
+        # for i in range(0, len(app.bullets)):
+        #     for j in range(0, len(app.aliens)):
+        #         if i >= 0 and j >= 0 and i < len(app.bullets) and j < len(app.aliens):
+        #             distanceX = (app.bullets[i].x+2.5) - (app.aliens[j].x+20)
+        #             distanceY = (app.bullets[i].y+2.5) - (app.aliens[j].y+20)
+        #             if len(app.aliens) != 0 and len(app.bullets) != 0 and distanceX <= 2 and distanceY <= 2:
+        #                 del app.aliens[j]
+        #                 del app.bullets[i]
+        #                 i -= 1
+        #                 j -= 1
+        for bullet in app.bullets:
+            for alien in app.aliens:
+                distanceX = (bullet.x+2.5) - (alien.x+20)
+                distanceY = (bullet.y+2.5) - (alien.y+20)
+                if len(app.aliens) != 0 and len(app.bullets) != 0 and distanceX <= 2 and distanceY <= 2:
+                    app.aliens.remove(alien)
+                    app.bullets.remove(bullet)
+                    break
 
 ##################################
 # Pause
