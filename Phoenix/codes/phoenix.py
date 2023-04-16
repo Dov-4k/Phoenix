@@ -97,12 +97,10 @@ def game_redrawAll(app):
     drawRect(0, 0, app.width, app.height, fill='black')
     drawLabel('Score: '+ str(app.score), app.width/2, 30, size=16, fill='white')
     drawLabel('Magazine: '+ str(app.magazine), app.width/2, 50, size=16, fill='white')
-    characterWidth, characterHeight = getImageSize(app.character)
     drawImage(app.character, app.CharacterX+2.5, app.CharacterY+2.5, align = 'center', width = 58, height = 58)
     for i in range(0, len(app.bullets)):
         drawCircle(app.bullets[i].x, app.bullets[i].y, 5, fill='cyan')
     for i in range(0, len(app.aliens)):
-        alienWidth, alienHeight = getImageSize(app.alien)
         drawImage(app.alien, app.aliens[i].x-20, app.aliens[i].y-20, width = 40, height = 40)
 
 def game_onStep(app):
