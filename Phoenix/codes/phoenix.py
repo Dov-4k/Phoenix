@@ -18,6 +18,7 @@ def onAppStart(app):
     app.character = os.path.join(script_dir, rel_path)
     rel_path = "./pictures/Phoenix enemySparrow.png"
     app.alien = os.path.join(script_dir, rel_path)
+    app.maxScore = 0
 
 def onAppStop(app):
     print('In onAppStop')
@@ -31,6 +32,12 @@ def startScreen_onAppStart(app):
 
 def startScreen_onScreenActivate(app):
     print('In startScreen_onScreenActivate')
+    app.CharacterX = app.width/2
+    app.CharacterY = 650
+    app.bullets = []
+    app.aliens = []
+    app.score = 0
+    app.magazine = 4
 
 def startScreen_onKeyPress(app, key):
     setActiveScreen('game')
@@ -42,6 +49,7 @@ def startScreen_redrawAll(app):
     drawRect(0, 0, app.width, app.height, fill='black')
     drawLabel('Welcome to Phoenix 3', app.width/2, 30, size=16, fill='white')
     drawLabel('Press any key to begin the game', app.width/2, 50, size=16, fill='white')
+    drawLabel('Max Score: '+ str(app.maxScore), app.width/2, 70, size=16, fill='white')
 
 ##################################
 # Game
@@ -65,14 +73,17 @@ def game_onAppStart(app):
     app.bullets = []
     app.aliens = []
     app.stepsPerSecond = 100
+    app.score = 0
+    app.magazine = 4
 
 def game_onScreenActivate(app):
     print('In game_onScreenActivate')
 
 def game_onKeyPress(app, key):
     if key == 'p': setActiveScreen('pause')
-    if key == 'space':
+    if key == 'space' and len(app.bullets) <= 3:
         app.bullets.append(Bullets(app.CharacterX, app.CharacterY))
+        app.magazine -= 1
 
 def game_onMousePress(app, x, y):
     app.CharacterX = x-2.5
@@ -83,9 +94,11 @@ def game_onMouseDrag(app, x, y):
     app.CharacterY = y-2.5
 
 def game_redrawAll(app):
-    drawRect(0, 0, app.width, app.height, fill='black')  
+    drawRect(0, 0, app.width, app.height, fill='black')
+    drawLabel('Score: '+ str(app.score), app.width/2, 30, size=16, fill='white')
+    drawLabel('Magazine: '+ str(app.magazine), app.width/2, 50, size=16, fill='white')
     characterWidth, characterHeight = getImageSize(app.character)
-    drawImage(app.character, app.CharacterX+2.5, app.CharacterY+2.5, align = 'center', width = characterWidth/6, height = characterHeight/6)
+    drawImage(app.character, app.CharacterX+2.5, app.CharacterY+2.5, align = 'center', width = 58, height = 58)
     for i in range(0, len(app.bullets)):
         drawCircle(app.bullets[i].x, app.bullets[i].y, 5, fill='cyan')
     for i in range(0, len(app.aliens)):
@@ -97,11 +110,12 @@ def game_onStep(app):
         for i in range(0, len(app.bullets)):
             if i < len(app.bullets) and app.bullets[i].y < -4:
                 del app.bullets[i]
+                app.magazine += 1 
                 i -= 1
             elif i < len(app.bullets):
                 app.bullets[i].y -= 10
     if len(app.aliens) == 0:
-        for i in range(0, random.randint(2, 10)):
+        for i in range(0, random.randint(2, 7)):
             alien = Aliens()
             app.aliens.append(alien)
     else:
@@ -112,30 +126,20 @@ def game_onStep(app):
             if distance != 0:
                 alien.x += x / distance * alien.speed
                 alien.y += y / distance * alien.speed
-        # for i in range(0, len(app.bullets)):
-        #     for j in range(0, len(app.aliens)):
-        #         if i >= 0 and j >= 0 and i < len(app.bullets) and j < len(app.aliens):
-        #             distanceX = (app.bullets[i].x+2.5) - (app.aliens[j].x+20)
-        #             distanceY = (app.bullets[i].y+2.5) - (app.aliens[j].y+20)
-        #             if len(app.aliens) != 0 and len(app.bullets) != 0 and distanceX <= 2 and distanceY <= 2:
-        #                 del app.aliens[j]
-        #                 del app.bullets[i]
-        #                 i -= 1
-        #                 j -= 1
         for alien in app.aliens:
             if len(app.bullets) == 0:
                 break
             for bullet in app.bullets:
                 if bullet.x >= alien.x-20 and bullet.x <= alien.x+20 and bullet.y >= alien.y-20 and bullet.y <= alien.y+20:
-                    print(app.bullets)
-                    print(app.aliens)
                     app.bullets.remove(bullet)
                     app.aliens.remove(alien)
-                    print('--')
-                    print(app.bullets)
-                    print(app.aliens)
+                    app.score += 1
+                    app.magazine += 1
                     break
-        print(app.aliens)
+        for alien in app.aliens:
+            if alien.x > app.CharacterX+2.5-25 and alien.x < app.CharacterX+2.5+25 and alien.y > app.CharacterY+2.5-25 and alien.y < app.CharacterY+2.5+25:
+                if app.score > app.maxScore: app.maxScore = app.score
+                setActiveScreen('gameOver')
 
 ##################################
 # Pause
@@ -156,6 +160,24 @@ def pause_redrawAll(app):
     drawLabel('Pause', app.width/2, 30, size=25, fill='white')
     drawLabel('Press p to resume the game', app.width/2, 50, size=16, fill='white')
     drawLabel('Press escape to exit the game', app.width/2, 70, size=16, fill='white')
+
+##################################
+# Game Over
+##################################
+
+def gameOver_onAppStart(app):
+    print('In gameOver')
+
+def gameOver_onScreenActivate(app):
+    print('In gameOver_onScreenActivate')
+
+def gameOver_onKeyPress(app, key):
+    if key == 'escape': setActiveScreen('startScreen')
+
+def gameOver_redrawAll(app):
+    drawRect(0, 0, app.width, app.height, fill='black')
+    drawLabel('Game Over', app.width/2, 30, size=25, fill='white')
+    drawLabel('Press escape to exit the game', app.width/2, 50, size=16, fill='white')
 
 ##################################
 # main
