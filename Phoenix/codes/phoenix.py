@@ -100,19 +100,19 @@ def game_redrawAll(app):
         for i in range(0, len(app.bullets)):
             for j in range(0, len(app.aliens)):
                 if i >= 0 and j >= 0 and i < len(app.bullets) and j < len(app.aliens):
-                    distanceX = app.bullets[i].x - app.aliens[j].x
-                    distanceY = app.bullets[i].y - app.aliens[j].y
-                    if len(app.aliens) != 0 and len(app.bullets) != 0 and distanceX <= 5 and distanceY <= 5:
+                    distanceX = (app.bullets[i].x+2.5) - (app.aliens[j].x+20)
+                    distanceY = (app.bullets[i].y+2.5) - (app.aliens[j].y+20)
+                    if len(app.aliens) != 0 and len(app.bullets) != 0 and distanceX <= 2 and distanceY <= 2:
                         del app.aliens[j]
                         del app.bullets[i]
                         i -= 1
                         j -= 1
         for i in range(0, len(app.bullets2)):
             for j in range(0, len(app.aliens)):
-                if i >= 0 and j >= 0 and i < len(app.bullets) and j < len(app.aliens):
-                    distanceX = app.bullets2[i].x - app.aliens[j].x
-                    distanceY = app.bullets2[i].y - app.aliens[j].y
-                    if len(app.aliens) != 0 and len(app.bullets2) != 0 and distanceX <= 5 and distanceY <= 5:
+                if i >= 0 and j >= 0 and i < len(app.bullets) and j < len(app.aliens) and i < len(app.bullets) and j < len(app.bullets2):
+                    distanceX = (app.bullets2[i].x+2.5) - (app.aliens[j].x+20)
+                    distanceY = (app.bullets2[i].y+2.5) - (app.aliens[j].y+20)
+                    if len(app.aliens) != 0 and len(app.bullets2) != 0 and distanceX <= 2 and distanceY <= 2:
                         del app.aliens[j]
                         del app.bullets2[i]
                         i -= 1
@@ -127,21 +127,21 @@ def game_redrawAll(app):
     if len(app.aliens) >= 2:
         for i in range(0, len(app.aliens)):
             alienWidth, alienHeight = getImageSize(app.alien)
-            drawImage(app.alien, app.aliens[i].x, app.aliens[i].y, width = 40, height = 40)
+            drawImage(app.alien, app.aliens[i].x-20, app.aliens[i].y-20, width = 40, height = 40)
 
 def game_onStep(app):
     if len(app.bullets) >= 0 and len(app.bullets2) >= 0:
         for i in range(0, len(app.bullets)):
-            if app.bullets[i].y < -5:
+            if i < len(app.bullets) and app.bullets[i].y < -4:
                 del app.bullets[i]
                 i -= 1
-            else:
+            elif i < len(app.bullets):
                 app.bullets[i].y -= 10
         for i in range(0, len(app.bullets2)):
-            if app.bullets2[i].y < -5:
+            if i < len(app.bullets2) and app.bullets2[i].y < -5:
                 del app.bullets2[i]
                 i -= 1
-            else:
+            elif i < len(app.bullets2):
                 app.bullets2[i].y -= 10
 
 ##################################
