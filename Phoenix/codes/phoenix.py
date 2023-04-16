@@ -104,7 +104,7 @@ def game_onStep(app):
             elif i < len(app.bullets):
                 app.bullets[i].y -= 10
     if len(app.aliens) == 0:
-        for i in range(0, random.randint(2, 14)):
+        for i in range(0, random.randint(2, 10)):
             alien = Aliens()
             app.aliens.append(alien)
     else:
@@ -125,11 +125,11 @@ def game_onStep(app):
         #                 del app.bullets[i]
         #                 i -= 1
         #                 j -= 1
-        for bullet in app.bullets:
-            for alien in app.aliens:
-                distanceX = (bullet.x+2.5) - (alien.x+20)
-                distanceY = (bullet.y+2.5) - (alien.y+20)
-                if len(app.aliens) != 0 and len(app.bullets) != 0 and distanceX <= 2 and distanceY <= 2:
+        for alien in app.aliens:
+            for bullet in app.bullets:
+                distanceX = (bullet.x - alien.x)
+                distanceY = (bullet.y - alien.y)
+                if len(app.aliens) != 0 and len(app.bullets) != 0 and distanceX <= 1 and distanceY <= 1:
                     app.aliens.remove(alien)
                     app.bullets.remove(bullet)
                     break
