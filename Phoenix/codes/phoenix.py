@@ -62,7 +62,6 @@ def game_onAppStart(app):
     print('In game')
     app.CharacterX = app.width/2
     app.CharacterY = 650
-    app.bullets2 = []
     app.bullets = []
     app.aliens = []
     app.stepsPerSecond = 100
@@ -84,16 +83,14 @@ def game_onMouseDrag(app, x, y):
     app.CharacterY = y-2.5
 
 def game_redrawAll(app):
-    
     drawRect(0, 0, app.width, app.height, fill='black')  
     characterWidth, characterHeight = getImageSize(app.character)
     drawImage(app.character, app.CharacterX+2.5, app.CharacterY+2.5, align = 'center', width = characterWidth/6, height = characterHeight/6)
     for i in range(0, len(app.bullets)):
         drawCircle(app.bullets[i].x, app.bullets[i].y, 5, fill='cyan')
-    if len(app.aliens) >= 2:
-        for i in range(0, len(app.aliens)):
-            alienWidth, alienHeight = getImageSize(app.alien)
-            drawImage(app.alien, app.aliens[i].x-20, app.aliens[i].y-20, width = 40, height = 40)
+    for i in range(0, len(app.aliens)):
+        alienWidth, alienHeight = getImageSize(app.alien)
+        drawImage(app.alien, app.aliens[i].x-20, app.aliens[i].y-20, width = 40, height = 40)
 
 def game_onStep(app):
     if len(app.bullets) >= 0:
@@ -126,11 +123,19 @@ def game_onStep(app):
         #                 i -= 1
         #                 j -= 1
         for alien in app.aliens:
+            if len(app.bullets) == 0:
+                break
             for bullet in app.bullets:
-                if bullet.x >= alien.x-20 and bullet.x  <= alien.x+20 and bullet.y >= alien.y-20 and bullet.y <= alien.y+20:
-                    app.aliens.remove(alien)
+                if bullet.x >= alien.x-20 and bullet.x <= alien.x+20 and bullet.y >= alien.y-20 and bullet.y <= alien.y+20:
+                    print(app.bullets)
+                    print(app.aliens)
                     app.bullets.remove(bullet)
+                    app.aliens.remove(alien)
+                    print('--')
+                    print(app.bullets)
+                    print(app.aliens)
                     break
+        print(app.aliens)
 
 ##################################
 # Pause
