@@ -59,7 +59,7 @@ class Aliens:
     def __init__(self):
         self.x = random.randint(0, 400)
         self.y = random.randint(0, 10)
-        self.speed = random.randint(2, 7)
+        self.speed = random.randint(3, 8)
 
 class Bullets:
     def __init__(self, CharX, CharY):
