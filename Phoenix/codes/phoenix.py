@@ -50,6 +50,10 @@ def startScreen_redrawAll(app):
     drawLabel('Welcome to Phoenix 3', app.width/2, 30, size=16, fill='white')
     drawLabel('Press any key to begin the game', app.width/2, 50, size=16, fill='white')
     drawLabel('Max Score: '+ str(app.maxScore), app.width/2, 70, size=16, fill='white')
+    drawLabel('Instructions:', app.width/2, 90, size=16, fill='white')
+    drawLabel('Hold mouse to move the ship', app.width/2, 110, size=16, fill='white')
+    drawLabel('Press space to shoot', app.width/2, 130, size=16, fill='white')
+    drawLabel('Press p to pause', app.width/2, 150, size=16, fill='white')
 
 ##################################
 # Game
