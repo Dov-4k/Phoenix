@@ -49,9 +49,10 @@ def startScreen_onMousePress(app, x, y):
 
 def startScreen_redrawAll(app):
     drawRect(0, 0, app.width, app.height, fill='black')
+    #drawImage(app.backgrd, 0, 0, app.width, app.height)
     drawLabel('Welcome to Phoenix 3', app.width/2, 30, size=16, fill='white')
     drawLabel('Press any key to begin the game', app.width/2, 50, size=16, fill='white')
-    drawLabel('Max Score: '+ str(app.maxScore), app.width/2, 70, size=16, fill='white')
+    drawLabel('Best Score: '+ str(app.maxScore), app.width/2, 70, size=16, fill='white')
     drawLabel('Instructions:', app.width/2, 90, size=16, fill='white')
     drawLabel('Hold mouse to move the ship', app.width/2, 110, size=16, fill='white')
     drawLabel('Press space to shoot', app.width/2, 130, size=16, fill='white')
@@ -185,6 +186,7 @@ def gameOver_redrawAll(app):
     drawRect(0, 0, app.width, app.height, fill='black')
     drawLabel('Game Over', app.width/2, 30, size=25, fill='white')
     drawLabel('Press escape to exit the game', app.width/2, 50, size=16, fill='white')
+    drawLabel('Final Score: '+ str(app.score), app.width/2, 70, size=16, fill='white')
 
 ##################################
 # main
