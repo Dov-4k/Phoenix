@@ -18,6 +18,8 @@ def onAppStart(app):
     app.character = os.path.join(script_dir, rel_path)
     rel_path = "./pictures/Phoenix enemySparrow.png"
     app.alien = os.path.join(script_dir, rel_path)
+    rel_path = "./pictures/background-free-video.png"
+    app.backgrd = os.path.join(script_dir, rel_path)
     app.maxScore = 0
 
 def onAppStop(app):
@@ -63,7 +65,7 @@ class Aliens:
     def __init__(self):
         self.x = random.randint(0, 400)
         self.y = random.randint(0, 10)
-        self.speed = random.randint(3, 8)
+        self.speed = random.randint(3, 5)
 
 class Bullets:
     def __init__(self, CharX, CharY):
@@ -112,7 +114,7 @@ def game_onStep(app):
         for i in range(0, len(app.bullets)):
             if i < len(app.bullets) and app.bullets[i].y < -4:
                 del app.bullets[i]
-                app.magazine += 1 
+                app.magazine += 1
                 i -= 1
             elif i < len(app.bullets):
                 app.bullets[i].y -= 10
@@ -127,7 +129,10 @@ def game_onStep(app):
             distance = (x ** 2 + y ** 2) ** 0.5
             if distance != 0:
                 alien.x += x / distance * alien.speed
-                alien.y += y / distance * alien.speed
+                if(y / distance * alien.speed < 0): #difficulty increase
+                    alien.y += y / distance * alien.speed - (app.score * 0.1)
+                elif(y / distance * alien.speed > 0):
+                    alien.y += y / distance * alien.speed + (app.score * 0.1)
         for alien in app.aliens:
             if len(app.bullets) == 0:
                 break
