@@ -14,10 +14,16 @@ import random
 def onAppStart(app):
     print('In onAppStart')
     script_dir = os.path.dirname(__file__)
+
+    # Image for character ship
     rel_path = "./pictures/Real Phoenix.png"
     app.character = os.path.join(script_dir, rel_path)
+
+    # Image for enemy ship
     rel_path = "./pictures/Phoenix enemySparrow.png"
     app.alien = os.path.join(script_dir, rel_path)
+
+    # Image for background
     rel_path = "./pictures/background-free-video.png"
     app.backgrd = os.path.join(script_dir, rel_path)
     app.maxScore = 0
@@ -34,10 +40,16 @@ def startScreen_onAppStart(app):
 
 def startScreen_onScreenActivate(app):
     print('In startScreen_onScreenActivate')
+
+    # Character X and Y coordinates
     app.CharacterX = app.width/2
     app.CharacterY = 650
+
+    # Bullets and Aliens Lists
     app.bullets = []
     app.aliens = []
+
+    # Score and Magazine
     app.score = 0
     app.magazine = 4
 
@@ -49,7 +61,6 @@ def startScreen_onMousePress(app, x, y):
 
 def startScreen_redrawAll(app):
     drawRect(0, 0, app.width, app.height, fill='black')
-    #drawImage(app.backgrd, 0, 0, app.width, app.height)
     drawLabel('Welcome to Phoenix 3', app.width/2, 30, size=16, fill='white')
     drawLabel('Press any key to begin the game', app.width/2, 50, size=16, fill='white')
     drawLabel('Best Score: '+ str(app.maxScore), app.width/2, 70, size=16, fill='white')
@@ -131,9 +142,9 @@ def game_onStep(app):
             if distance != 0:
                 alien.x += x / distance * alien.speed
                 if(y / distance * alien.speed < 0): #difficulty increase
-                    alien.y += y / distance * alien.speed - (app.score * 0.1)
-                elif(y / distance * alien.speed > 0):
-                    alien.y += y / distance * alien.speed + (app.score * 0.1)
+                   alien.y += y / distance * alien.speed - (app.score * 0.1)
+                #elif(y / distance * alien.speed > 0):
+                    #alien.y += y / distance * alien.speed + (app.score * 0.1)
         for alien in app.aliens:
             if len(app.bullets) == 0:
                 break
