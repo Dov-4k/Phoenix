@@ -143,8 +143,8 @@ def game_onStep(app):
                 alien.x += x / distance * alien.speed
                 if(y / distance * alien.speed < 0): #difficulty increase
                    alien.y += y / distance * alien.speed - (app.score * 0.1)
-                #elif(y / distance * alien.speed > 0):
-                    #alien.y += y / distance * alien.speed + (app.score * 0.1)
+                elif(y / distance * alien.speed > 0):
+                    alien.y += y / distance * alien.speed + (app.score * 0.1)
         for alien in app.aliens:
             if len(app.bullets) == 0:
                 break
