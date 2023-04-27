@@ -1,1 +1,2 @@
-# CMU-Comp-Sci
+# Phoenix game in python
+Collaborators are welcome
