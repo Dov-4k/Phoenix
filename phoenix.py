@@ -97,12 +97,14 @@ def game_onAppStart(app):
 def game_onScreenActivate(app):
     print('In game_onScreenActivate')
 
+# pause and shoot keys
 def game_onKeyPress(app, key):
     if key == 'p': setActiveScreen('pause')
     if key == 'space' and len(app.bullets) <= 3:
         app.bullets.append(Bullets(app.CharacterX, app.CharacterY))
         app.magazine -= 1
 
+# character movement
 def game_onMousePress(app, x, y):
     app.CharacterX = x-2.5
     app.CharacterY = y-2.5
@@ -121,7 +123,8 @@ def game_redrawAll(app):
     for i in range(0, len(app.aliens)):
         drawImage(app.alien, app.aliens[i].x-20, app.aliens[i].y-20, width = 40, height = 40)
 
-def game_onStep(app):
+def game_onStep(app): # runs 100 times per second/step
+    # bullet movement
     if len(app.bullets) >= 0:
         for i in range(0, len(app.bullets)):
             if i < len(app.bullets) and app.bullets[i].y < -4:
@@ -130,10 +133,13 @@ def game_onStep(app):
                 i -= 1
             elif i < len(app.bullets):
                 app.bullets[i].y -= 10
+
+    # alien creation when there are no aliens
     if len(app.aliens) == 0:
         for i in range(0, random.randint(2, 7)):
             alien = Aliens()
             app.aliens.append(alien)
+    # alien movement when there are aliens
     else:
         for alien in app.aliens:
             x = app.CharacterX - alien.x
